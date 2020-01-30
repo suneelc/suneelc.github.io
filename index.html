@@ -1,13 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8" />
-<meta name="title" content="Meta Tags - How Google Meta Tags Impact SEO" />
-<meta name="description" content="Meta tags, little snippets of code that help describe the content on your site to search engines, can have a larger impact on SEO and your website than you may think: Find out more about the importance of meta tags." />
-<meta name="keywords" content="meta tags, meta tag, meta tags seo, meta tags definition, what is a meta tag" />
-  <title>suneel poc </title>
+<title>How to get a Google Map Driving Direction using Javascript.</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDskWKW5J9tCyiv3Z8qCr2xWh3vXHcvNJg"></script>
+<script type="text/javascript" src="googlemap.js"></script>
+<link href="style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-this is a sample page
-  <h1> this is for SEO testing </h1>
+<table class="tbl-entry">
+	<tr>
+		<td>Starting Point</td>
+		<td><input type="text" id="txtStartingPoint" class="input-entry"/></td>
+	</tr>
+	<tr>
+		<td>Destination Point</td>
+		<td><input type="text" id="txtDestinationPoint" class="input-entry"/></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="button" id="btnQuery" value="Query" onclick="bytutorialMap.getGeolocationData()"/> <input type="button" id="btnClear" value="Clear" onclick="bytutorialMap.clearEntries()"/> </td>
+	</tr>
+</table>
+
+<table class="tbl-map">
+	<tr>
+		<td><div id="map"></div></td>
+		<td><div id="panel-direction"></div></td>
+	</tr>
+</table>
+
 </body>
 </html>
