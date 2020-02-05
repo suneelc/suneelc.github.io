@@ -207,8 +207,9 @@
         //         window.URL.revokeObjectURL(data);
         //     }, 100);
         // }
-//
-var pdfData = atob(
+
+
+        var pdfData = atob(
   'JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwog' +
   'IC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAv' +
   'TWVkaWFCb3ggWyAwIDAgMjAwIDIwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0K' +
@@ -262,6 +263,10 @@ loadingTask.promise.then(function(pdf) {
   // PDF loading error
   console.error(reason);
 });
+
+
+
+        }
 
         fetch(["/1.pdf"], {})
             .then(r => r.blob())
