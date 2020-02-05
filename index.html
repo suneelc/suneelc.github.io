@@ -211,6 +211,7 @@
   // If absolute URL from the remote server is provided, configure the CORS
   // header on that server.
   //
+  var url = './1.pdf';
 
   //
   // The workerSrc property shall be specified.
@@ -220,7 +221,7 @@
   //
   // Asynchronous download PDF
   //
-  var loadingTask = pdfjsLib.getDocument({data: data});
+  var loadingTask = pdfjsLib.getDocument(url);
   loadingTask.promise.then(function(pdf) {
     //
     // Fetch the first page
