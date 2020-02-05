@@ -54,8 +54,8 @@
   const data = window.URL.createObjectURL(newBlob);
   var link = document.createElement('a');
   link.href = data;
-  link.download="file.pdf";
-  link.click();
+  //link.download="file.pdf";
+  //link.click();
   setTimeout(function(){
     // For Firefox it is necessary to delay revoking the ObjectURL
     window.URL.revokeObjectURL(data);
