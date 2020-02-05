@@ -148,7 +148,7 @@
 
     embed = function(url, targetSelector, options){
         if(typeof url !== "string"){ return embedError("URL is not valid"); }
-        targetSelector = (typeof targetSelector !== "undefined") ? targetSelector : false;ow
+        targetSelector = (typeof targetSelector !== "undefined") ? targetSelector : false;
         options = (typeof options !== "undefined") ? options : {};
         var id = (options.id && typeof options.id === "string") ? "id='" + options.id + "'" : "",
             page = (options.page) ? options.page : false,
