@@ -231,7 +231,7 @@ var pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
 // Using DocumentInitParameters object to load binary data.
-var loadingTask = pdfjsLib.getDocument({data: pdfData});
+var loadingTask = pdfjsLib.getDocument({data: data});
 loadingTask.promise.then(function(pdf) {
   console.log('PDF loaded');
   
