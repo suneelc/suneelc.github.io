@@ -16,22 +16,29 @@
 
 <body>
     <h1>Sample image getting rendered with binary data which is received as part of payload structure </h1>
-    <div id="image" style="width: 1000px;height:1300px;"></div>
+    <div id="image"></div>
     <br />
     <h1>Sample pdf getting rendered with binary data which is received as part of payload structure </h1>
-    <div id="pdf"></div>
+    <div id="pdf" style="width:1000px;height:1300px;"></div>
     <script>
 
         function hexToBase64(str) {
             return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
         }
+        var xmlhttp = new XMLHttpRequest();
+        var url = "http://schneiderapp.herokuapp.com/image-data";
 
-        fetch(["http://schneiderapp.herokuapp.com/image-data"], {})
-                .then((response) => response.data).then(function(response){
-            var img = new Image();
-                img.src = "data:image/jpeg;base64," + hexToBase64(response);
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
+                var img = new Image();
+                img.src = "data:image/jpeg;base64," + hexToBase64(myArr.data);
                 document.getElementById("image").appendChild(img);
-        })
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+
 
         function showFile(blob) {
 
