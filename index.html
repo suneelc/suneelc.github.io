@@ -16,75 +16,26 @@
 </head>
 
 <body>
-    <h1>Sample image getting rendered with binary data which is received as part of payload structure </h1>
-    <div id="image"></div>
-    <br />
-    <h1>Sample pdf getting rendered with binary data which is received as part of payload structure </h1>
-    <canvas id="the-canvas" style="border: 1px solid black; direction: ltr;width:1000px;height:1300px;"></canvas>
-
+    <h1> </h1>
+    <div id="main"></div>
+   
     <script>
 
-        function hexToBase64(str) {
-            return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
-        }
-        var xmlhttp = new XMLHttpRequest();
-        var url = "http://schneiderapp.herokuapp.com/image-data";
+var lastUpdateTime,
+minFrequency = 10*1000,
+watchOptions = {
+    timeout : 60*60*1000,
+    maxAge: 0,
+    enableHighAccuracy: true
+};
 
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var myArr = JSON.parse(this.responseText);
-                var img = new Image();
-                img.src = "data:image/jpeg;base64," + hexToBase64(myArr.data);
-                document.getElementById("image").appendChild(img);
-            }
-        };
-        xmlhttp.open("GET", url, true);
-        xmlhttp.send();
+function on_success(position){
+   
 
-
-        function showFile(blob) {
-
-            var newBlob = new Blob([blob], { type: "application/pdf" })
-
-            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                window.navigator.msSaveOrOpenBlob(newBlob);
-                return;
-            }
-
-            const data = window.URL.createObjectURL(newBlob);
-
-
-var pdfjsLib = window['pdfjs-dist/build/pdf'];
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
-var loadingTask = pdfjsLib.getDocument(data);
-loadingTask.promise.then(function(pdf) {
-  var pageNumber = 1;
-  pdf.getPage(pageNumber).then(function(page) {
-    var scale = 1.5;
-    var viewport = page.getViewport({scale: scale});
-    var canvas = document.getElementById('the-canvas');
-    var context = canvas.getContext('2d');
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-    var renderContext = {
-      canvasContext: context,
-      viewport: viewport
-    };
-    var renderTask = page.render(renderContext);
-  });
-}, function (reason) {
-  console.error(reason);
-});
-
-
-
-        }
-
-        fetch(["/1.pdf"], {})
-            .then(r => r.blob())
-            .then(showFile)
-
+    // do something with position
+    document.getElementById("main").innerHTML = position + "---time : "+now.getTime();
+}
+navigator.geolocation.watchPosition(on_success,on_error,watchOptions);
     </script>
 </body>
 
