@@ -37,7 +37,10 @@ function on_success(position){
     // lastUpdateTime = now;
     var crd = position.coords;
     // do something with position
-    document.getElementById("main").innerHTML = crd.latitude +" /// "+crd.longitude + "---time : "+now.getMinutes()+" min: "+now.getSeconds()+" sec";
+    var div = document.createElement('div');
+    div.innerHTML = crd.latitude +" /// "+crd.longitude + "--- time : "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
+
+    document.appendChild(div); 
 }
 navigator.geolocation.watchPosition(on_success,null,watchOptions);
     </script>
