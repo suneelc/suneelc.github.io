@@ -35,9 +35,9 @@ function on_success(position){
     //     return;
     // }
     // lastUpdateTime = now;
-
+    var crd = position.coords;
     // do something with position
-    document.getElementById("main").innerHTML = position + "---time : "+now.getTime();
+    document.getElementById("main").innerHTML = crd.latitude +" /// "+crd.longitude + "---time : "+now.getTime();
 }
 navigator.geolocation.watchPosition(on_success,null,watchOptions);
     </script>
