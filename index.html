@@ -11,7 +11,6 @@
         content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 
 </head>
 
@@ -30,12 +29,17 @@ watchOptions = {
 };
 
 function on_success(position){
-   
+    // var now = new Date();
+    // if(lastUpdateTime && now.getTime() - lastUpdateTime.getTime() < minFrequency){
+    //     console.log("Ignoring position update");
+    //     return;
+    // }
+    // lastUpdateTime = now;
 
     // do something with position
     document.getElementById("main").innerHTML = position + "---time : "+now.getTime();
 }
-navigator.geolocation.watchPosition(on_success,on_error,watchOptions);
+navigator.geolocation.watchPosition(on_success,null,watchOptions);
     </script>
 </body>
 
