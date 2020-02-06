@@ -40,7 +40,7 @@ function on_success(position){
     var div = document.createElement('div');
     div.innerHTML = crd.latitude +" /// "+crd.longitude + "--- time : "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
 
-    document.appendChild(div); 
+    document.body.appendChild(div); 
 }
 navigator.geolocation.watchPosition(on_success,null,watchOptions);
     </script>
