@@ -41,7 +41,7 @@
 //   lastTimestamp = currentTime;
 //console.log(eventData.interval);
             //velocity = Math.round(acceleration.x) * eventData.interval;
-            velocity =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
+            velocity =  Math.abs((eventData.acceleration.y * 0.05).toFixed(2));
             //velocity =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
             speed = (velocity * 2.236936).toFixed(2);
             // Convert the value from acceleration to degrees
