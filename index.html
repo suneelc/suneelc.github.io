@@ -51,8 +51,11 @@
             // and then multiply that by 90 to convert to degrees.
             //var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
             //var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
-            setTimeout(function(){document.querySelector("#rawAccel").innerHTML = "Raw acceleration : " + speed + " mph";
-},2000);
+            (function(speed){
+               setTimeout(function(speed){document.querySelector("#rawAccel").innerHTML = "Raw acceleration : " + speed + " mph";
+},500);
+            })(speed)
+            
          }, false);
       } else {
         alert("Not supported on your device or browser. Sorry.");
