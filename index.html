@@ -45,7 +45,7 @@
             var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
             var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
             document.querySelector("#rawAccel").innerHTML =
-                               "Raw acceleration" + speedX;
+                               "Raw acceleration" + Math.round(speedX);
             document.querySelector("#tiltFB").innerHTML =
                                "Tilt front/back : " + tiltFB;
             document.querySelector("#tiltLR").innerHTML =
