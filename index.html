@@ -41,7 +41,7 @@
 //   lastTimestamp = currentTime;
 //console.log(eventData.interval);
             //velocity = Math.round(acceleration.x) * eventData.interval;
-            velocity =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
+            velocity =  Math.abs((eventData.acceleration.y * 0.1).toFixed(2));
             //velocity =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
             speed = (velocity * 2.236936).toFixed(2);
             // Convert the value from acceleration to degrees
@@ -51,12 +51,10 @@
             // and then multiply that by 90 to convert to degrees.
             //var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
             //var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
-            (function(speed){
-               
-               setTimeout(function(){document.querySelector("#rawAccel").innerHTML = "Raw acceleration : " + speed + " mph";
-},speed * 1000);
-            })(speed)
             
+               
+               document.querySelector("#rawAccel").innerHTML = "Raw acceleration : " + speed + " mph";
+
          }, false);
       } else {
         alert("Not supported on your device or browser. Sorry.");
