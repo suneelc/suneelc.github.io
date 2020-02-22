@@ -14,6 +14,8 @@
       <script type="text/javascript">
          if (window.DeviceMotionEvent != undefined) {
          console.log("DeviceMotion is supported");
+         var lastTimestamp;
+         var speedX = 0;
          window.addEventListener('devicemotion', function(eventData) {
             // Grab the acceleration including gravity from the results
             var acceleration = eventData.accelerationIncludingGravity;
@@ -26,6 +28,15 @@
             if (acceleration.z > 0) {
                facingUp = +1;
             }
+            var currentTime = new Date().getTime();
+  if (lastTimestamp === undefined) {
+    lastTimestamp = new Date().getTime();
+    return; //ignore first call, we need a reference time
+  }
+  //  m/s² / 1000 * (miliseconds - miliseconds)/1000 /3600 => km/h (if I didn't made a mistake)
+  speedX += eventData.acceleration.x / 1000 * ((currentTime - lastTimestamp)/1000)/3600;
+  //... same for Y and Z
+  lastTimestamp = currentTime;
             // Convert the value from acceleration to degrees
             // acceleration.x|y is the acceleration according to gravity,
             //  we'll assume we're on Earth and divide
@@ -34,7 +45,7 @@
             var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
             var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
             document.querySelector("#rawAccel").innerHTML =
-                               "Raw acceleration" + rawAcceleration;
+                               "Raw acceleration" + speedX;
             document.querySelector("#tiltFB").innerHTML =
                                "Tilt front/back : " + tiltFB;
             document.querySelector("#tiltLR").innerHTML =
