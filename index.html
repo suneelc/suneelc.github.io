@@ -40,7 +40,9 @@
 //   //... same for Y and Z
 //   lastTimestamp = currentTime;
 
-            velocity = Math.round(acceleration.x) * acceleration.interval;
+            //velocity = Math.round(acceleration.x) * eventData.interval;
+            velocity =  Math.abs((acceleration.y * 0.05).toFixed(2));
+           
             // Convert the value from acceleration to degrees
             // acceleration.x|y is the acceleration according to gravity,
             //  we'll assume we're on Earth and divide
