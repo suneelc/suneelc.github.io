@@ -29,33 +29,27 @@
             if (acceleration.z > 0) {
                facingUp = +1;
             }
-            var currentTime = new Date().getTime();
-  if (lastTimestamp === undefined) {
-    lastTimestamp = new Date().getTime();
-    return; //ignore first call, we need a reference time
-  }
-  //  m/s² / 1000 * (miliseconds - miliseconds)/1000 /3600 => km/h (if I didn't made a mistake)
-  speedX += Math.round(event.acceleration.x) / 1000 * ((currentTime - lastTimestamp)/1000)/3600;
-  //... same for Y and Z
-  lastTimestamp = currentTime;
+            
+//             var currentTime = new Date().getTime();
+//   if (lastTimestamp === undefined) {
+//     lastTimestamp = new Date().getTime();
+//     return; //ignore first call, we need a reference time
+//   }
+//   //  m/s² / 1000 * (miliseconds - miliseconds)/1000 /3600 => km/h (if I didn't made a mistake)
+//   speedX += Math.round(event.acceleration.x) / 1000 * ((currentTime - lastTimestamp)/1000)/3600;
+//   //... same for Y and Z
+//   lastTimestamp = currentTime;
 
-            velocity = Math.round(acceleration.x) * eventData.interval;
+            velocity = Math.round(acceleration.x) * acceleration.interval;
             // Convert the value from acceleration to degrees
             // acceleration.x|y is the acceleration according to gravity,
             //  we'll assume we're on Earth and divide
             // by 9.81 (earth gravity) to get a percentage value,  
             // and then multiply that by 90 to convert to degrees.
-            var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
-            var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
+            //var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
+            //var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
             document.querySelector("#rawAccel").innerHTML =
                                "Raw acceleration : " + velocity;
-            document.querySelector("#tiltFB").innerHTML =
-                               "Tilt front/back : " + tiltFB;
-            document.querySelector("#tiltLR").innerHTML =
-                               "Tilt left/right : " + tiltLR;
-            document.querySelector("#upDown").innerHTML =
-                               "Face Up:Down : " + facingUp;
-            updateLogoOrientation(tiltLR, tiltFB);
          }, false);
       } else {
         alert("Not supported on your device or browser. Sorry.");
