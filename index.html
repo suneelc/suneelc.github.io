@@ -16,6 +16,7 @@
          console.log("DeviceMotion is supported");
          var velocity=0;
          var speedX = 0;
+         var lastTimestamp;
          window.addEventListener('devicemotion', function(eventData) {
             // Grab the acceleration including gravity from the results
             var acceleration = eventData.accelerationIncludingGravity;
