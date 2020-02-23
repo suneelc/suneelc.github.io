@@ -44,7 +44,7 @@
             velocity =  Math.abs((eventData.acceleration.x).toFixed(2));
              var main = Math.round((velocity*3.6/250) *270) + 0;
             //var speed =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
-            var speed = (Math.abs((eventData.acceleration.x)) * 2.236936).toFixed(2);
+            var speed = (Math.abs((eventData.acceleration.x)) * 2.236936/250).toFixed(2);
 
             // Convert the value from acceleration to degrees
             // acceleration.x|y is the acceleration according to gravity,
