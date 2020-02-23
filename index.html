@@ -2,12 +2,11 @@
 <html>
    <head></head>
    <body>
-      <h2>Device Orientation with HTML5</h2>
-      You need to be on a mobile device or use a laptop with accelerometer/orientation
-      device.
+      
       <p>
       <div id="rawAccel"></div>
       <div id="tiltFB"></div>
+      <div id="second"></div>
       <div id="tiltLR"></div>
       <div id="upDown"></div>
       <imgsrc="http://www.html5rocks.com/en/tutorials/device/orientation/html5_logo.png"id="imgLogo" class="logo">
@@ -44,8 +43,8 @@
             velocity =  Math.abs((eventData.acceleration.x).toFixed(2));
             // var main = Math.round((velocity*3.6/250) *270) + 0;
             //var speed =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
-            var speed = Math.abs(((eventData.acceleration.x) * 2.236936/250)*180).toFixed(2);
-
+            var speed =  Math.round(Math.abs(((eventData.acceleration.x) * 2.236936/250)*180));
+            var speed1 =  Math.round(Math.abs(eventData.acceleration.x * 2.236936));
             // Convert the value from acceleration to degrees
             // acceleration.x|y is the acceleration according to gravity,
             //  we'll assume we're on Earth and divide
@@ -54,7 +53,10 @@
             //var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
             //var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
             document.querySelector("#rawAccel").innerHTML =
-                               "Raw acceleration : " + speed + " mph";
+                               "first approach : " + speed + " mph";
+
+            document.querySelector("#second").innerHTML =
+                               "second approach : " + speed1 + " mph";
          }, false);
       } else {
         alert("Not supported on your device or browser. Sorry.");
