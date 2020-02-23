@@ -1,73 +1,67 @@
-<!doctype html>
-<html>
-   <head></head>
-   <body>
-      <h2>Device Orientation with HTML5</h2>
-      You need to be on a mobile device or use a laptop with accelerometer/orientation
-      device.
-      <p>
-      <div id="rawAccel"></div>
-      <div id="tiltFB"></div>
-      <div id="tiltLR"></div>
-      <div id="upDown"></div>
-      <imgsrc="http://www.html5rocks.com/en/tutorials/device/orientation/html5_logo.png"id="imgLogo" class="logo">
-      <script type="text/javascript">
-         if (window.DeviceMotionEvent != undefined) {
-         console.log("DeviceMotion is supported");
-         var velocity=0;
-         var speedX = 0;
-         var lastTimestamp;
-         window.addEventListener('devicemotion', function(eventData) {
-            // Grab the acceleration including gravity from the results
-            var acceleration = eventData.accelerationIncludingGravity;
-            // Display the raw acceleration data
-            var rawAcceleration = "[" + Math.round(acceleration.x) + ", " +Math.round(acceleration.y) 
-            + ", " + Math.round(acceleration.z) + "]";
-            // Z is the acceleration in the Z axis, and if the device
-            // is facing up or down
-            var facingUp = -1;
-            if (acceleration.z > 0) {
-               facingUp = +1;
-            }
-            
-//             var currentTime = new Date().getTime();
-//   if (lastTimestamp === undefined) {
-//     lastTimestamp = new Date().getTime();
-//     return; //ignore first call, we need a reference time
-//   }
-//   //  m/s² / 1000 * (miliseconds - miliseconds)/1000 /3600 => km/h (if I didn't made a mistake)
-//   speedX += Math.round(event.acceleration.x) / 1000 * ((currentTime - lastTimestamp)/1000)/3600;
-//   //... same for Y and Z
-//   lastTimestamp = currentTime;
-//console.log(eventData.interval);
-            //velocity = Math.round(acceleration.x) * eventData.interval;
-            velocity =  Math.abs((eventData.acceleration.y).toFixed(2));
-             var main = Math.round((velocity*3.6/250)) + 0;
-            //var speed =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
-            var speed = (main * 2.236936).toFixed(2);
-
-            // Convert the value from acceleration to degrees
-            // acceleration.x|y is the acceleration according to gravity,
-            //  we'll assume we're on Earth and divide
-            // by 9.81 (earth gravity) to get a percentage value,  
-            // and then multiply that by 90 to convert to degrees.
-            //var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
-            //var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
-            document.querySelector("#rawAccel").innerHTML =
-                               "Raw acceleration : " + speed + " mph";
-         }, false);
-      } else {
-        alert("Not supported on your device or browser. Sorry.");
-      }
-      function updateLogoOrientation(tiltLR, tiltFB) {
-         // USE CSS3 rotations for rotating the HTML5 logo
-         //for webkit browser
-         document.getElementById("imgLogo").style.webkitTransform =
-         "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) +"deg)";
-         //for HTML5 standard-compliance
-         document.getElementById("imgLogo").style.transform =
-         "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) +"deg)";
-      }
-   </script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test</title>
+    <style>
+        #redPacket{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 300px;
+            height: 400px;
+            /* border: 1px solid black; */
+            margin-top: -200px;
+            margin-left: -150px;
+            opacity: 0;
+        }
+        #tip{
+            color: red;
+            font-size: 40px;
+            opacity: 1;
+        }
+    </style>
+</head>
+ 
+<body>
+    <div id="tip">摇一摇得红包</div>
+   <div id="redPacket"></div>
+    <script>
+      var SHAKE_THRESHOLD = 800;
+      var last_update = 0;
+      var x, y, z, last_x=0, last_y=0, last_z=0;
+      function deviceMotionHeadler(eventData){
+          var acceleration = eventData.accelerationIncludingGravity;
+          var curTime = new Date().getTime();
+          if((curTime - last_update) > 300){
+              var diffTime = curTime - last_update;
+              last_update = curTime;
+              x = acceleration.x;
+              y = acceleration.y;
+              z = acceleration.z;
+              var speed = Math.abs(x + y + z -last_x -last_y -last_z)/ diffTime * 10000;
+              if(speed > SHAKE_THRESHOLD){
+                 
+                  var div = document.getElementById('redPacket');
+                  var img = new Image();
+                  img.src = 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3378701361,2399708000&fm=27&gp=0.jpg';
+                  img.onload = function(){
+                      div.appendChild(img);
+                      img.style.width = '300px';
+                      img.style.height = '400px';
+                      tip.style.opacity = 0;
+                      div.style.opacity = 1;
+                  }
+              }
+              last_x = x;
+              last_y = y;
+              last_z = z;
+          }
+      }  
+      window.addEventListener('devicemotion', deviceMotionHeadler, false);
+    </script>
+</body>
 </html>
