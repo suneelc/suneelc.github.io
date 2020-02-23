@@ -43,8 +43,8 @@
             //velocity = Math.round(acceleration.x) * eventData.interval;
             velocity =  Math.abs((eventData.acceleration.y).toFixed(2));
              var main = Math.round((velocity*3.6/250) *270) + 1
-            //velocity =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
-            //speed = (velocity * 2.236936).toFixed(2);
+            //var speed =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
+            var speed = (main * 2.236936).toFixed(2);
 
             // Convert the value from acceleration to degrees
             // acceleration.x|y is the acceleration according to gravity,
@@ -54,7 +54,7 @@
             //var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
             //var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
             document.querySelector("#rawAccel").innerHTML =
-                               "Raw acceleration : " + main + " mph";
+                               "Raw acceleration : " + speed + " mph";
          }, false);
       } else {
         alert("Not supported on your device or browser. Sorry.");
