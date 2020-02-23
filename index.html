@@ -42,7 +42,7 @@
 //console.log(eventData.interval);
             //velocity = Math.round(acceleration.x) * eventData.interval;
             velocity =  Math.abs((eventData.acceleration.y).toFixed(2));
-             var main = Math.round((velocity*3.6/250) *270) + 1
+             var main = Math.round((velocity*3.6/250) *270) + 0;
             //var speed =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
             var speed = (main * 2.236936).toFixed(2);
 
