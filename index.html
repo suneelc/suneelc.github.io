@@ -48,10 +48,14 @@
       if (Notification.permission !== "granted") {
         Notification.requestPermission();
       } else {
+
         var notification = new Notification('This is suneel testing', {
-          icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-          body: "i will be running for 10 times with the delay of 10 seconds for the POC ",
-        });
+          icon: '',
+          body: (function(){
+            var i = 0;
+            return setTimeout(function(){ return "it is running with the delay of 20 seconds for the POC :"+i+1}, 20000)
+        })()
+
 
         allTheEvents(notification);
       }
@@ -59,11 +63,6 @@
 
     function allTheEvents(notification) {
       notification.addEventListener("show", (e) => {
-        const testDataObject = {
-          name: "show",
-          favorite_drink: "Fire Ball",
-          favorite_food: "Steak"
-        }
         new Promise((resolve, reject) => {
           resolve("suneel")
         })
