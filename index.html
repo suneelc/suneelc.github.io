@@ -48,13 +48,13 @@
       if (Notification.permission !== "granted") {
         Notification.requestPermission();
       } else {
-
         var notification = new Notification('This is suneel testing', {
           icon: '',
-          body: (function(){
+          body:  (function(){
             var i = 0;
             return setTimeout(function(){ return "it is running with the delay of 20 seconds for the POC :"+i+1}, 20000)
         })()
+        });
 
 
         allTheEvents(notification);
