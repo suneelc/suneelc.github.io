@@ -1,75 +1,172 @@
-<!doctype html>
-<html>
-   <head></head>
-   <body>
-      
-      <p>
-      <div id="rawAccel"></div>
-      <div id="tiltFB"></div>
-      <div id="second"></div>
-      <div id="tiltLR"></div>
-      <div id="upDown"></div>
-      <imgsrc="http://www.html5rocks.com/en/tutorials/device/orientation/html5_logo.png"id="imgLogo" class="logo">
-      <script type="text/javascript">
-         if (window.DeviceMotionEvent != undefined) {
-         console.log("DeviceMotion is supported");
-         var velocity=0;
-         var speedX = 0;
-         var lastTimestamp;
-         window.addEventListener('devicemotion', function(eventData) {
-            // Grab the acceleration including gravity from the results
-            var acceleration = eventData.accelerationIncludingGravity;
-            // Display the raw acceleration data
-            var rawAcceleration = "[" + Math.round(acceleration.x) + ", " +Math.round(acceleration.y) 
-            + ", " + Math.round(acceleration.z) + "]";
-            // Z is the acceleration in the Z axis, and if the device
-            // is facing up or down
-            var facingUp = -1;
-            if (acceleration.z > 0) {
-               facingUp = +1;
-            }
-            
-//             var currentTime = new Date().getTime();
-//   if (lastTimestamp === undefined) {
-//     lastTimestamp = new Date().getTime();
-//     return; //ignore first call, we need a reference time
-//   }
-//   //  m/s² / 1000 * (miliseconds - miliseconds)/1000 /3600 => km/h (if I didn't made a mistake)
-//   speedX += Math.round(event.acceleration.x) / 1000 * ((currentTime - lastTimestamp)/1000)/3600;
-//   //... same for Y and Z
-//   lastTimestamp = currentTime;
-//console.log(eventData.interval);
-            //velocity = Math.round(acceleration.x) * eventData.interval;
-            velocity =  Math.abs((eventData.acceleration.x).toFixed(2));
-            // var main = Math.round((velocity*3.6/250) *270) + 0;
-            //var speed =  Math.abs((eventData.acceleration.y * eventData.interval).toFixed(2));
-            var speed =  Math.round(Math.abs(((eventData.acceleration.x) * 2.236936/250)*180));
-            var speed1 =  Math.round(Math.abs(eventData.acceleration.x * 2.236936));
-            // Convert the value from acceleration to degrees
-            // acceleration.x|y is the acceleration according to gravity,
-            //  we'll assume we're on Earth and divide
-            // by 9.81 (earth gravity) to get a percentage value,  
-            // and then multiply that by 90 to convert to degrees.
-            //var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
-            //var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 *facingUp);
-            document.querySelector("#rawAccel").innerHTML =
-                               "first approach : " + speed + " mph";
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 
-            document.querySelector("#second").innerHTML =
-                               "second approach : " + speed1 + " mph";
-         }, false);
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400italic,700italic' rel='stylesheet' type='text/css'>
+
+  <script src="main.js"></script>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="container__item landing-page-container">
+      <div class="content__wrapper">
+
+        <header class="header">
+          <!-- <div class="menu-icon header__item">
+            <span class="menu-icon__line"></span>
+          </div> -->
+
+          <h1 class="heading header__item">Web Push Notifications</h1>
+
+          <!-- <ul class="social-container header__item">
+            <li class="social__icon social__icon--fb">
+              <img src="https://s29.postimg.org/3ldyta4qb/image.png" alt="facebook">
+            </li>
+            <li class="social__icon social__icon--dr">
+              <img src="https://s29.postimg.org/vqltn8fhv/image.png" alt="dribbble">
+            </li>
+            <li class="social__icon social__icon--in">
+              <img src="https://s29.postimg.org/p1fa77u5v/image.png" alt="instagram">
+            </li>
+          </ul> -->
+        </header>
+
+        <p class="coords">26.4381° N, 81.8068° W</p>
+
+        <div class="ellipses-container">
+
+          <button class="greeting" onclick="notifyMe()">Click Me!</button>
+
+          <div class="ellipses ellipses__outer--thin">
+
+            <div class="ellipses ellipses__orbit"></div>
+
+          </div>
+
+          <div class="ellipses ellipses__outer--thick"></div>
+        </div>
+
+        <div class="scroller">
+          <p class="page-title">home</p>
+
+          <div class="timeline">
+            <span class="timeline__unit"></span>
+            <span class="timeline__unit timeline__unit--active"></span>
+            <span class="timeline__unit"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      // console.log('Service Worker and Push is supported');
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(swReg) {
+          // console.log('Service Worker is registered', swReg);
+          if (Notification.permission == 'default') {
+            askPermission()
+          }
+          swRegistration = swReg;
+        })
+        .catch(function(error) {
+          console.error('Service Worker Error', error);
+        });
+    } else {
+      console.warn('Push messaging is not supported');
+      pushButton.textContent = 'Push Not Supported';
+    }
+
+    // Just the push button
+    function notifyMe() {
+      if (!Notification) {
+        alert('Desktop notifications not available in your browser. Try Chromium.');
+        return;
+      }
+
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission();
       } else {
-        alert("Not supported on your device or browser. Sorry.");
+        var notification = new Notification('Notification title', {
+          icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+          body: "Hey there! You've been notified!",
+        });
+
+        allTheEvents(notification);
       }
-      function updateLogoOrientation(tiltLR, tiltFB) {
-         // USE CSS3 rotations for rotating the HTML5 logo
-         //for webkit browser
-         document.getElementById("imgLogo").style.webkitTransform =
-         "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) +"deg)";
-         //for HTML5 standard-compliance
-         document.getElementById("imgLogo").style.transform =
-         "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) +"deg)";
+    }
+
+    function allTheEvents(notification) {
+      notification.addEventListener("show", (e) => {
+        const testDataObject = {
+          name: "show",
+          favorite_drink: "Fire Ball",
+          favorite_food: "Steak"
+        }
+        new Promise((resolve, reject) => {
+          resolve(postsendTestDataData(testDataObject))
+        })
+      })
+
+      notification.addEventListener("click", (e) => {
+        const testDataObject = {
+          name: "click",
+          favorite_drink: "Fire Ball",
+          favorite_food: "Steak"
+        }
+        new Promise((resolve, reject) => {
+          postsendTestDataData(testDataObject)
+        })
+      })
+
+      notification.addEventListener("close", (e) => {
+        const testDataObject = {
+          name: "close",
+          favorite_drink: "Fire Ball",
+          favorite_food: "Steak"
+        }
+        new Promise((resolve, reject) => {
+          postsendTestDataData(testDataObject)
+        })
+      })
+
+      notification.addEventListener("error", (e) => {
+        const testDataObject = {
+          name: "error",
+          favorite_drink: "Fire Ball",
+          favorite_food: "Steak"
+        }
+        new Promise((resolve, reject) => {
+          postsendTestDataData(testDataObject)
+        })
+      })
+    }
+
+    function postsendTestDataData(data) {
+        let domain;
+        const local = window.location.href.includes("127");
+        local ? domain = "http://localhost:3000/" : "https://arcane-stream-87798.herokuapp.com/"
+
+        return fetch(`${domain}/test_data`, {
+          body: JSON.stringify(data), // must match 'Content-Type' header
+          method: 'POST',
+          headers: {
+            'user-agent': 'Mozilla/4.0 MDN Example',
+            'content-type': 'application/json'
+          },
+        })
+          .then(response => console.log(response)) // parses response to JSON
       }
-   </script>
-  </body>
+  </script>
+</body>
+
 </html>
