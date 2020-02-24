@@ -64,7 +64,7 @@
     function allTheEvents(notification) {
       notification.addEventListener("show", (e) => {
         new Promise((resolve, reject) => {
-          resolve("suneel")
+          setInterval(function(){console.log("123")},10000)
         })
       })
 
