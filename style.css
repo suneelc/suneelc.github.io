@@ -1,33 +1,40 @@
-body{
-	font-family:Arial;
-	font-size:14px;
+html {
+	background-color: #7D2663;
+	font-family: sans-serif;
 }
 
-table.tbl-entry td{
-	padding:5px 10px;
+h1 {
+	margin: 0;
+	font-size: 15vw;
+	letter-spacing: -0.2rem;
+	position: absolute;
+	top: 0;
+	z-index: -1;
 }
 
-.input-entry{
-	padding:5px;
-	border-radius:5px;
-	min-width:300px;
+p {
+	margin: 0;
 }
 
-table.tbl-map{
-	width:100%;
+.controls {
+	padding: 4vw;
+	width: 75%;
+	margin: 10vw auto;
+	background-color: rgba(255,255,255,0.7);
+	border: 5px solid black;
+	opacity: 0.3;
+	transition: 1s all;
 }
 
-table.tbl-map td{
-	width:50%;
-	vertical-align:top;
-	padding:10px;
+.controls:hover, .controls:focus {
+  opacity: 1;
 }
 
-#map{
-	height:500px;
+.controls label, .controls p, .controls input {
+	font-size: 3vw;
 }
 
-#panel-direction{
-	height:500px;
-    overflow-x:hidden;
+.controls div {
+  padding-bottom: 1rem;
 }
+

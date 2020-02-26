@@ -1,121 +1,37 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <title>Suneel POC </title>
-    <link rel="manifest" href="/notification-generator/manifest.json"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Web Workers basic example</title>
+
+    <link rel="stylesheet" href="style.css">
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-  <body class="green">
-    <header>
-      <div class="header-overlay"></div>
-      <h1>
-        Suneel POC
-        <a class="twitter" href="https://twitter.com/beverloo"></a>
-      </h1>
-    </header>
-    <section>
-      <style>
-        /** Not-implemented warning **/
-        [not-implemented]::after {
-          content: ' ❗';
-          color: red;
-        }
-      </style>
-      <script src="/generator_base.js"></script>
-      <script src="/notification_generator_base.js"></script>
-      <script src="/notification_generator.js"></script>
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var requirementsElement = document.getElementById('requirements'),
-              element = document.getElementById('test-case');
 
-          var generator = new NotificationGenerator(requirementsElement, element);
+  <body>
+    <h1>Web<br>Workers<br>basic<br>example</h1>
 
-          generator.deserialize(document.location.hash);
-          generator.setFields({
-            // Visual settings
-            title: ['title', "this is suneel validation"],
-            body: ['body', "this will continue untill you close it"],
-            dir: ['direction', GeneratorBase.FIELD_TYPE_STRING],
-            image: ['image', GeneratorBase.FIELD_TYPE_STRING],
-            icon: ['icon', ""],
-            badge: ['badge', GeneratorBase.FIELD_TYPE_STRING],
+    <div class="controls" tabindex="0">
 
-            // Behavioral settings
-            persistent: ['persistent', GeneratorBase.FIELD_TYPE_BOOL],
-            tag: ['tag', GeneratorBase.FIELD_TYPE_STRING],
-            vibrate: ['vibrate', GeneratorBase.FIELD_TYPE_ARRAY],
-            timestamp: ['timestamp',
-                        GeneratorBase.FIELD_TYPE_TIME_OFFSET],
-            actions: ['actions', GeneratorBase.FIELD_TYPE_BUTTONS],
-            silent: ['silent', GeneratorBase.FIELD_TYPE_BOOL],
-            renotify: ['renotify', GeneratorBase.FIELD_TYPE_BOOL],
-            requireInteraction: ['require_interaction',
-                                 GeneratorBase.FIELD_TYPE_BOOL],
-            notificationCloseEvent: ['notification_close_event',
-                                 GeneratorBase.FIELD_TYPE_BOOL],
-            showTrigger: ['show_trigger', GeneratorBase.FIELD_TYPE_TRIGGER],
+      <form>
+        <div>
+          <label for="number1">Multiply number 1: </label>    
+          <input type="text" id="number1" value="0">
+        </div>
+        <div>
+          <label for="number2">Multiply number 2: </label>   
+          <input type="text" id="number2" value="0">
+        </div>
+      </form>
 
-            // Reaction settings
-            action: ['action', GeneratorBase.FIELD_TYPE_STRING],
-            close: ['close', GeneratorBase.FIELD_TYPE_BOOL],
-          });
+      <p class="result">Result: 0</p>
 
-          // Defines the behavior of the display button. It will be disabled
-          // when the notification is being displayed, and enabled again when
-          // that either succeeded, or an error occurred.
-          var displayButton = document.getElementById('action-display');
-          displayButton.addEventListener('click', function() {
-            displayButton.disabled = true;
-
-            generator.display().then(function() {
-              displayButton.disabled = false;
-            });
-          });
-
-          // Defines the behavior of the get displayed button.
-          var getDisplayedButton = document.getElementById('action-get-displayed');
-          getDisplayedButton.addEventListener('click', function() {
-              generator.getPersistent();
-          });
-
-          // The reset button allows the form to be reset to its initial values,
-          // which is implemented by refreshing the page.
-          var resetButton = document.getElementById('action-reset');
-          resetButton.addEventListener('click', function() {
-            document.location.href = document.location.pathname;
-          });
-
-          // Listen for messages received from the Service Worker.
-          navigator.serviceWorker.addEventListener('message', function(message) {
-            alert(message.data);
-          });
-
-          // Check if show triggers are supported by this browser.
-          if (!Notification.prototype.hasOwnProperty('showTrigger')) {
-            var showTriggerSelect = document.getElementById('show_trigger');
-            showTriggerSelect.disabled = true;
-            showTriggerSelect.title = 'Not supported by this browser.';
-          }
-
-          generator.registerServiceWorker('/notification-generator/');
-          generator.requestPermission();
-        });
-      </script>
-      <div id="test-case" class="test-case">
-
-          <button id="action-display">click</button>
-        </p>
-      </div>
-    </section>
-    <footer>
-      Curated by <a href="https://peter.sh/">Peter Beverloo</a>. This page lives in the
-      <a href="https://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.
-      <aside>
-        <a href="https://github.com/beverloo/peter.sh/tree/master/tests">source code</a>
-      </aside>
-    </footer>
-    <script src="/resources/common.js" async></script>
+    </div>
+    <script src="main.js"></script>
   </body>
 </html>
