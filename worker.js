@@ -6,6 +6,10 @@ onmessage = function(e) {
   } else {
     let workerResult = 'Result: ' + result;
     console.log('Worker: Posting message back to main script');
-    postMessage(workerResult);
+    var abc =0
+    this.timerId = setInterval(function() {
+      postMessage(abc+1);
+    }.bind(this), 10000)
+    
   }
 }
