@@ -13,5 +13,6 @@ onmessage = function(e) {
 }
 var abc = 0;
   this.timerId = setInterval(function() {
-    postMessage(abc+1);
+    postMessage(abc);
+    abc = abc+1;
   }.bind(this), 10000)
