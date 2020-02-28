@@ -39,6 +39,7 @@
     }
 
     // Just the push button
+    var abc = 0;
     function notifyMe() {
       if (!Notification) {
         alert('Desktop notifications not available in your browser. Try Chromium.');
@@ -50,14 +51,9 @@
       } else {
         var notification = new Notification('This is suneel testing', {
           icon: '',
-          body:"it is running with the delay of 20 seconds for the POC"
-        //   body:  (function(){
-        //     var i = 0;
-        //     return setInterval(function(){ return "it is running with the delay of 20 seconds for the POC :"+i+1}, 20000)
-        // })()
-        });
-        var abc = 0;
-          setInterval(function(){notification.body = abc+ 1},5000);
+          body:"it is running with the delay of 5 seconds -- " + abc+1
+        })
+        setTimeout(notification.close.bind(notification), 5000);
 
         allTheEvents(notification);
       }
