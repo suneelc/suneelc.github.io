@@ -31,7 +31,7 @@
     // Retrieve current version
     var latestVersion = 234;
     var currentVersion = localStorage.getItem("conciseVersion");
-    if (currentVersion === null || semverCompare(currentVersion, latestVersion) === -1 ) {      
+      
       displayNotification(
         `Click to see what's new in v${latestVersion}`,
         "https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/concise-logo.png",
@@ -40,7 +40,7 @@
       );
       
       localStorage.setItem("conciseVersion", latestVersion);
-    }
+    
   }
 
   function displayNotification(body, icon, title, link, duration) {
