@@ -1,109 +1,121 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Suneel POC </title>
+    <link rel="manifest" href="/notification-generator/manifest.json"/>
+  </head>
+  <body class="green">
+    <header>
+      <div class="header-overlay"></div>
+      <h1>
+        Suneel POC
+        <a class="twitter" href="https://twitter.com/beverloo"></a>
+      </h1>
+    </header>
+    <section>
+      <style>
+        /** Not-implemented warning **/
+        [not-implemented]::after {
+          content: ' ❗';
+          color: red;
+        }
+      </style>
+      <script src="/generator_base.js"></script>
+      <script src="/notification_generator_base.js"></script>
+      <script src="/notification_generator.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var requirementsElement = document.getElementById('requirements'),
+              element = document.getElementById('test-case');
 
-<head>
-  <meta charset="utf-8">
-  <title></title>
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400italic,700italic' rel='stylesheet' type='text/css'>
+          var generator = new NotificationGenerator(requirementsElement, element);
 
-  <script src="main.js"></script>
-  <link rel="manifest" href="/manifest.json">
-  <link rel="stylesheet" href="styles.css">
-</head>
+          generator.deserialize(document.location.hash);
+          generator.setFields({
+            // Visual settings
+            title: ['title', "this is suneel validation"],
+            body: ['body', "this will continue untill you close it"],
+            dir: ['direction', GeneratorBase.FIELD_TYPE_STRING],
+            image: ['image', GeneratorBase.FIELD_TYPE_STRING],
+            icon: ['icon', ""],
+            badge: ['badge', GeneratorBase.FIELD_TYPE_STRING],
 
-<body>
- 
+            // Behavioral settings
+            persistent: ['persistent', GeneratorBase.FIELD_TYPE_BOOL],
+            tag: ['tag', GeneratorBase.FIELD_TYPE_STRING],
+            vibrate: ['vibrate', GeneratorBase.FIELD_TYPE_ARRAY],
+            timestamp: ['timestamp',
+                        GeneratorBase.FIELD_TYPE_TIME_OFFSET],
+            actions: ['actions', GeneratorBase.FIELD_TYPE_BUTTONS],
+            silent: ['silent', GeneratorBase.FIELD_TYPE_BOOL],
+            renotify: ['renotify', GeneratorBase.FIELD_TYPE_BOOL],
+            requireInteraction: ['require_interaction',
+                                 GeneratorBase.FIELD_TYPE_BOOL],
+            notificationCloseEvent: ['notification_close_event',
+                                 GeneratorBase.FIELD_TYPE_BOOL],
+            showTrigger: ['show_trigger', GeneratorBase.FIELD_TYPE_TRIGGER],
 
-          <button class="greeting" onclick="notifyMe()">Click</button>
+            // Reaction settings
+            action: ['action', GeneratorBase.FIELD_TYPE_STRING],
+            close: ['close', GeneratorBase.FIELD_TYPE_BOOL],
+          });
 
-         
+          // Defines the behavior of the display button. It will be disabled
+          // when the notification is being displayed, and enabled again when
+          // that either succeeded, or an error occurred.
+          var displayButton = document.getElementById('action-display');
+          displayButton.addEventListener('click', function() {
+            displayButton.disabled = true;
 
-  <script type="text/javascript">
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-      // console.log('Service Worker and Push is supported');
-      navigator.serviceWorker.register('service-worker.js')
-        .then(function(swReg) {
-          // console.log('Service Worker is registered', swReg);
-          if (Notification.permission == 'default') {
-            askPermission()
+            generator.display().then(function() {
+              displayButton.disabled = false;
+            });
+          });
+
+          // Defines the behavior of the get displayed button.
+          var getDisplayedButton = document.getElementById('action-get-displayed');
+          getDisplayedButton.addEventListener('click', function() {
+              generator.getPersistent();
+          });
+
+          // The reset button allows the form to be reset to its initial values,
+          // which is implemented by refreshing the page.
+          var resetButton = document.getElementById('action-reset');
+          resetButton.addEventListener('click', function() {
+            document.location.href = document.location.pathname;
+          });
+
+          // Listen for messages received from the Service Worker.
+          navigator.serviceWorker.addEventListener('message', function(message) {
+            alert(message.data);
+          });
+
+          // Check if show triggers are supported by this browser.
+          if (!Notification.prototype.hasOwnProperty('showTrigger')) {
+            var showTriggerSelect = document.getElementById('show_trigger');
+            showTriggerSelect.disabled = true;
+            showTriggerSelect.title = 'Not supported by this browser.';
           }
-          swRegistration = swReg;
-        })
-        .catch(function(error) {
-          console.error('Service Worker Error', error);
+
+          generator.registerServiceWorker('/notification-generator/');
+          generator.requestPermission();
         });
-    } else {
-      console.warn('Push messaging is not supported');
-      //pushButton.textContent = 'Push Not Supported';
-    }
+      </script>
+      <div id="test-case" class="test-case">
 
-    // Just the push button
-    function notifyMe() {
-      if (!Notification) {
-        alert('Desktop notifications not available in your browser. Try Chromium.');
-        return;
-      }
-
-      if (Notification.permission !== "granted") {
-        Notification.requestPermission();
-      } else {
-        var notification = new Notification('This is suneel testing', {
-          icon: '',
-          body:"it is running with the delay of 20 seconds for the POC"
-        //   body:  (function(){
-        //     var i = 0;
-        //     return setInterval(function(){ return "it is running with the delay of 20 seconds for the POC :"+i+1}, 20000)
-        // })()
-        });
-
-
-        allTheEvents(notification);
-      }
-    }
-
-    function allTheEvents(notification) {
-      notification.addEventListener("show", (e) => {
-        new Promise((resolve, reject) => {
-          setInterval(function(){console.log("123")},10000)
-        })
-      })
-
-      notification.addEventListener("click", (e) => {
-        const testDataObject = {
-          name: "click",
-          favorite_drink: "Fire Ball",
-          favorite_food: "Steak"
-        }
-        new Promise((resolve, reject) => {
-         // postsendTestDataData(testDataObject)
-        })
-      })
-
-      notification.addEventListener("close", (e) => {
-        const testDataObject = {
-          name: "close",
-          favorite_drink: "Fire Ball",
-          favorite_food: "Steak"
-        }
-        new Promise((resolve, reject) => {
-         // postsendTestDataData(testDataObject)
-        })
-      })
-
-      notification.addEventListener("error", (e) => {
-        const testDataObject = {
-          name: "error",
-          favorite_drink: "Fire Ball",
-          favorite_food: "Steak"
-        }
-        new Promise((resolve, reject) => {
-          //postsendTestDataData(testDataObject)
-        })
-      })
-    }
-
-  </script>
-</body>
-
+          <button id="action-display">click</button>
+        </p>
+      </div>
+    </section>
+    <footer>
+      Curated by <a href="https://peter.sh/">Peter Beverloo</a>. This page lives in the
+      <a href="https://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.
+      <aside>
+        <a href="https://github.com/beverloo/peter.sh/tree/master/tests">source code</a>
+      </aside>
+    </footer>
+    <script src="/common.js" async></script>
+  </body>
 </html>
