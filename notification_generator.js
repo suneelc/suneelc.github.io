@@ -82,23 +82,22 @@ NotificationGenerator.prototype.displayPersistent = function(title, options) {
 
 // Displays a non-persistent notification using the Notification constructor,
 // and returns a Promise that will be settled when the operation is complete.
+var abc = 0;
+
 NotificationGenerator.prototype.displayNonPersistent = function(title, options) {
     return new Promise(function(resolve) {
     var notification = null;
     
     try {
       notification = new Notification("suneel Sample POC --", {
-        body: (function(){
-          var abc = 0;
-          return setInterval(function(){ return "sample POC --"+ abc + 1 },5000)
-        })(),
+        body: "this is suneel --"+ abc+1,
         icon: ""
       })
     } catch (exception) {
       alert(exception);
       return resolve();
     }
-
+    setTimeout(notification.close.bind(notification), 5000);
     notification.addEventListener('click', function () {
       var action = options.data.options.action;
       if (action == 'message') {
