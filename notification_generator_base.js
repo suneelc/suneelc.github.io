@@ -19,7 +19,7 @@ NotificationGeneratorBase.REQUIREMENT_PERMISSION = 1000;
 NotificationGeneratorBase.REQUIREMENT_SERVICE_WORKER = 1001;
 
 NotificationGeneratorBase.prototype.registerServiceWorker = function(scope) {
-  navigator.serviceWorker.register(scope + 'sw.js', { scope: scope }).catch(function(error) {
+  navigator.serviceWorker.register('/sw.js', { scope: scope }).catch(function(error) {
     console.error('Unable to register the service worker: ' + error);
   });
 
