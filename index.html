@@ -1,26 +1,109 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width">
+<html lang="en" dir="ltr">
 
-    <title>suneel POC </title>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400italic,700italic' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" href="style.css">
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
+  <script src="main.js"></script>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-  <body>
-    
-    <div class="controls" tabindex="0">
+<body>
+ 
 
-     
-      <p class="result">Result: 0</p>
+          <button class="greeting" onclick="notifyMe()">Click</button>
 
-    </div>
-    <script src="main.js"></script>
-  </body>
+         
+
+  <script type="text/javascript">
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      // console.log('Service Worker and Push is supported');
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(swReg) {
+          // console.log('Service Worker is registered', swReg);
+          if (Notification.permission == 'default') {
+            askPermission()
+          }
+          swRegistration = swReg;
+        })
+        .catch(function(error) {
+          console.error('Service Worker Error', error);
+        });
+    } else {
+      console.warn('Push messaging is not supported');
+      //pushButton.textContent = 'Push Not Supported';
+    }
+
+    // Just the push button
+    function notifyMe() {
+      if (!Notification) {
+        alert('Desktop notifications not available in your browser. Try Chromium.');
+        return;
+      }
+
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission();
+      } else {
+        var notification = new Notification('This is suneel testing', {
+          icon: '',
+          body:"it is running with the delay of 20 seconds for the POC"
+        //   body:  (function(){
+        //     var i = 0;
+        //     return setInterval(function(){ return "it is running with the delay of 20 seconds for the POC :"+i+1}, 20000)
+        // })()
+        });
+
+
+        allTheEvents(notification);
+      }
+    }
+
+    function allTheEvents(notification) {
+      notification.addEventListener("show", (e) => {
+        new Promise((resolve, reject) => {
+          setInterval(function(){console.log("123")},10000)
+        })
+      })
+
+      notification.addEventListener("click", (e) => {
+        const testDataObject = {
+          name: "click",
+          favorite_drink: "Fire Ball",
+          favorite_food: "Steak"
+        }
+        new Promise((resolve, reject) => {
+         // postsendTestDataData(testDataObject)
+        })
+      })
+
+      notification.addEventListener("close", (e) => {
+        const testDataObject = {
+          name: "close",
+          favorite_drink: "Fire Ball",
+          favorite_food: "Steak"
+        }
+        new Promise((resolve, reject) => {
+         // postsendTestDataData(testDataObject)
+        })
+      })
+
+      notification.addEventListener("error", (e) => {
+        const testDataObject = {
+          name: "error",
+          favorite_drink: "Fire Ball",
+          favorite_food: "Steak"
+        }
+        new Promise((resolve, reject) => {
+          //postsendTestDataData(testDataObject)
+        })
+      })
+    }
+
+  </script>
+</body>
+
 </html>
