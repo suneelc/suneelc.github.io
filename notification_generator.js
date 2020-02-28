@@ -87,10 +87,13 @@ NotificationGenerator.prototype.displayNonPersistent = function(title, options) 
     var notification = null;
     
     try {
-      notification = new Notification((function(){
-        var abc = 0;
-        return setInterval(function(){ return "sample POC --" + 1 },5000)
-      })());
+      notification = new Notification("suneel Sample POC --", {
+        body: (function(){
+          var abc = 0;
+          return setInterval(function(){ return "sample POC --"+ abc + 1 },5000)
+        })(),
+        icon: ""
+      })
     } catch (exception) {
       alert(exception);
       return resolve();
