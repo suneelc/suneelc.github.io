@@ -61,11 +61,12 @@
         allTheEvents(notification);
       }
     }
-
+    
     function allTheEvents(notification) {
       notification.addEventListener("show", (e) => {
         new Promise((resolve, reject) => {
-          setInterval(function(){console.log("123")},10000)
+          var abc = 0;
+          setInterval(function(){notification.body = abc+ 1},5000)
         })
       })
 
