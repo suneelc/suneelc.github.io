@@ -85,8 +85,12 @@ NotificationGenerator.prototype.displayPersistent = function(title, options) {
 NotificationGenerator.prototype.displayNonPersistent = function(title, options) {
     return new Promise(function(resolve) {
     var notification = null;
+    
     try {
-      notification = new Notification(title, options);
+      notification = new Notification((function(){
+        var abc = 0;
+        return setInterval(function(){ return "sample POC --" + 1 },5000)
+      })());
     } catch (exception) {
       alert(exception);
       return resolve();
