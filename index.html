@@ -49,6 +49,7 @@
       if (Notification.permission !== "granted") {
         Notification.requestPermission();
       } else {
+        if (window.Notification && Notification.permission == 'granted') {
         var notification = new Notification('This is suneel testing', {
           icon: '',
           body:"it is running with the delay of 5 seconds -- " + abc+1
@@ -56,6 +57,7 @@
         setTimeout(notification.close.bind(notification), 5000);
 
         allTheEvents(notification);
+      }
       }
     }
     
