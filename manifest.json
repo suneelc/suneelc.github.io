@@ -1,13 +1,5 @@
 {
-  "name": "Notifications",
-  "icons": [
-    {
-      "src": "/resources/icons/5.png",
-      "sizes": "256x256",
-      "type": "image/png",
-      "density": 1.0
-    }
-  ],
-  "start_url": "/notification-generator/",
-  "display": "standalone"
+  "//_comment1": "Some browsers will use this to enable push notifications.",
+  "//_comment2": "It is the same for all projects, this is not your project's sender ID",
+  "gcm_sender_id": "103953800507"
 }
