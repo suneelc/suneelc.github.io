@@ -45,15 +45,15 @@ $(document).ready(function () {
         getDetailsHeaders.append("Authorization", `Bearer ${accesstoken}`);
         // getDetailsHeaders.append("Cookie", "ROUTE=.api-78dc565756-p9pqv");
         // getDetailsHeaders.append("Access-Control-Allow-Origin", "*");
-        getDetailsHeaders.append("Access-Control-Allow-Origin", "*");
-        getDetailsHeaders.append("Access-Control-Allow-Credentials", "true");
+        // getDetailsHeaders.append("Access-Control-Allow-Origin", "*");
+        // getDetailsHeaders.append("Access-Control-Allow-Credentials", "true");
       
 
         var requestOptions = {
           method: "GET",
           headers: getDetailsHeaders,
           redirect: "follow",
-          mode: "no-cors",
+          // mode: "no-cors",
         };
 
         fetch(
